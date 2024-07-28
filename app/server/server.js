@@ -2,9 +2,12 @@ const Joke = require("../model/joke");
 const express = require("express");
 const bodyParser = require("body-parser");
 const databaseConnection = require("../database/database");
+const cors = require("cors");
 const PORT = 3001;
 const app = express();
 
+// Use the cors middleware
+app.use(cors());
 databaseConnection();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
