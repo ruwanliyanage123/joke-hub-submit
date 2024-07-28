@@ -40,11 +40,11 @@ app.get("/api/getJokeById/:id", async (req, res) => {
   }
 });
 
-app.get("/api/getRandomJokeByTitle/:title", async (req, res) => {
-  const { title } = req.params;
+app.get("/api/getRandomJokeByTitle/:type", async (req, res) => {
+  const { type } = req.params;
   try {
     const jokes = await Joke.aggregate([
-      { $match: { jokeTitle: title } },
+      { $match: { jokeType: type } },
       { $sample: { size: 1 } },
     ]);
     if (jokes.length > 0) {
