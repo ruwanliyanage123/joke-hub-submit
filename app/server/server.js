@@ -2,6 +2,7 @@ const Joke = require("../model/joke");
 const express = require("express");
 const bodyParser = require("body-parser");
 const databaseConnection = require("../database/database");
+const { createJoke, updateJoke, deleteJoke } = require("../service/service");
 const cors = require("cors");
 const PORT = 3001;
 const app = express();
@@ -24,6 +25,7 @@ app.post("/api/createJoke", async (req, res) => {
   });
   try {
     await joke.save();
+    await createJoke(joke);
     res.status(201).send({ message: "Joke created successfully", joke });
   } catch (error) {
     res.status(500).send({ message: "Error creating joke", error });
@@ -80,6 +82,7 @@ app.put("/api/updateJoke/:id", async (req, res) => {
   const { jokeTitle, jokeType, jokeDescription } = req.body;
   try {
     await Joke.findByIdAndUpdate(id, { jokeTitle, jokeType, jokeDescription });
+    await updateJoke({ jokeTitle, jokeType, jokeDescription });
     res.send({ message: "Joke updated successfully" });
   } catch (error) {
     res.status(500).send({ message: "Error updating joke", error });
@@ -90,6 +93,7 @@ app.delete("/api/deleteJoke/:id", async (req, res) => {
   const { id } = req.params;
   try {
     await Joke.findByIdAndDelete(id);
+    await deleteJoke({ id });
     res.send({ message: "Joke deleted successfully" });
   } catch (error) {
     res.status(500).send({ message: "Error deleting joke", error });
