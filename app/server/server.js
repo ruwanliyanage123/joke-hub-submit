@@ -40,7 +40,7 @@ app.get("/api/getJokeById/:id", async (req, res) => {
   }
 });
 
-app.get("/api/getRandomJokeByTitle/:type", async (req, res) => {
+app.get("/api/getRandomJokeByType/:type", async (req, res) => {
   const { type } = req.params;
   try {
     const jokes = await Joke.aggregate([
@@ -54,6 +54,15 @@ app.get("/api/getRandomJokeByTitle/:type", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send({ message: "Error getting joke", error });
+  }
+});
+
+app.get("/api/getActiveTypes", async (req, res) => {
+  try {
+    const jokeTypes = await Joke.distinct("jokeType");
+    res.status(200).send(jokeTypes);
+  } catch (error) {
+    res.status(500).send({ message: "Error getting joke types", error });
   }
 });
 
