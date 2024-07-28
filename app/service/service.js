@@ -20,8 +20,9 @@ const createJoke = async (jokeData) => {
 
 const updateJoke = async (jokeData) => {
   try {
-    const response = await axios.post(
-      `http://localhost:3005/joke-deliver/updateJoke/:id`,
+    const { id } = jokeData;
+    const response = await axios.put(
+      `http://localhost:3005/joke-deliver/updateJoke/${id}`,
       jokeData
     );
     console.log("Updated successfully for Joke Deliver...");
@@ -32,11 +33,10 @@ const updateJoke = async (jokeData) => {
   }
 };
 
-const deleteJoke = async (jokeData) => {
+const deleteJoke = async (id) => {
   try {
-    const response = await axios.post(
-      `http://localhost:3005/joke-deliver/deleteJoke/:id`,
-      jokeData
+    const response = await axios.delete(
+      `http://localhost:3005/joke-deliver/deleteJoke/${id}`
     );
     console.log("Submitted delete for Joke Deliver...");
     return response.data;
