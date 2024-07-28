@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const jokeSchema = new mongoose.Schema({
-  jokeName: {
+  jokeTitle: {
     type: String,
     required: true,
   },
