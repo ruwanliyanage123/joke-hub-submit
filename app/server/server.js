@@ -40,6 +40,23 @@ app.get("/api/getJokeById/:id", async (req, res) => {
   }
 });
 
+app.get("/api/getRandomJokeByTitle/:title", async (req, res) => {
+  const { title } = req.params;
+  try {
+    const jokes = await Joke.aggregate([
+      { $match: { jokeTitle: title } },
+      { $sample: { size: 1 } },
+    ]);
+    if (jokes.length > 0) {
+      res.send(jokes[0]);
+    } else {
+      res.status(404).send({ message: "No joke found with the given title" });
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Error getting joke", error });
+  }
+});
+
 app.get("/api/getAllJokes", async (req, res) => {
   try {
     const jokes = await Joke.find();
